@@ -80,7 +80,7 @@ As the brief asks, every browser appends `SisuTestAssignment` to its User-Agent,
 
 To debug a CI failure: download the `test-results-<browser>` artifact, then `npx playwright show-trace <trace.zip>`.
 
-## Known blocker: Cloudflare
+## Blocker: Cloudflare
 
 - Production answers test browsers with Cloudflare's "Performing security verification" page (`cf-mitigated: challenge`).
   The `failFastWhenBlocked` fixture detects this and fails the test immediately with the Cloudflare **Ray ID**,
@@ -88,5 +88,3 @@ To debug a CI failure: download the `test-results-<browser>` artifact, then `npx
 - The brief's `SisuTestAssignment` User-Agent marker is verified to reach the site (request header and
   `navigator.userAgent`), but the challenge still appears. Sending it as an `X-Test-Traffic` / `X-Sisu-Test` header
   made no difference, and ticking the check by hand returns "Verification failed".
-- The suite deliberately does not try to evade bot detection. Once test traffic is allow-listed, or `BASE_URL` points
-  at a non-challenged environment, it needs no further changes.
