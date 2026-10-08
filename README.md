@@ -11,14 +11,13 @@ on Chromium and Firefox, locally and in GitHub Actions.
 
 | # | Spec | Use case | Why it is critical | Main checks |
 |---|------|----------|--------------------|-------------|
-| 1 | `01-login.spec.ts` | Unregistered user tries email + password login | Auth is the gate to money; it must refuse unknown users clearly | Empty form → "required" errors. Unknown user → error shown, still logged out |
+| 1 | `01-login.spec.ts` | Unregistered user tries email + password login | Verifying that auth service works, user error would indicate that service is running and response is mapped | Empty form → "required" errors. Unknown user → error shown, still logged out |
 | 2 | `02-chess.spec.ts` | Find Chess via the "All" sports menu | Sport discovery → betting is the core funnel | URL, title, page name; every event has decimal odds |
 | 3 | `03-live-cs-stream.spec.ts` | Find a live Counter-Strike match and get its stream URL | Live betting + streaming is a key engagement feature | "Watch live" opens a player; `src` is https on a known streaming host (attached to the report) |
-| 4 | `04-language-et-chess.spec.ts` | EN → ET, then find "Male" (chess) | Localisation for a core market (Estonia) | URL `/et/`, `<html lang="et">`, translated labels, persists after reload, `/et/sport/male` |
-| 5 | `05-navigation-parity.spec.ts` | Side menu vs other navigation | Broken navigation silently loses users | Promotions: top bar ≡ side menu. Help Center: side menu ≡ account panel |
+| 4 | `04-language-et-chess.spec.ts` | EN → ET, then find "Male" (chess) | Localisation/Translations check | URL `/et/`, `<html lang="et">`, translated labels, persists after reload, `/et/sport/male` |
+| 5 | `05-navigation-parity.spec.ts` | Side menu vs other navigation | Just navigation, but on core part of service (Support) | Promotions -> Help Centre and Sidebar -> Help Centre|
 
-Notes from the requirement review:
-- The top bar has **no Help Center link**, so for Help Center the side menu is compared with the account panel instead.
+Notes>
 - Live data (chess events, live CS matches) comes and goes. With nothing to test, a test is **skipped with a reason**,
   so "no data" and "broken feature" stay distinguishable in the report.
 
@@ -91,11 +90,3 @@ To debug a CI failure: download the `test-results-<browser>` artifact, then `npx
   made no difference, and ticking the check by hand returns "Verification failed".
 - The suite deliberately does not try to evade bot detection. Once test traffic is allow-listed, or `BASE_URL` points
   at a non-challenged environment, it needs no further changes.
-
-## Other findings
-
-- **Accessibility:** the login method buttons (email, Smart-ID, Google…) are icon-only with no accessible name,
-  and sport page titles are plain `<div>`s, not headings.
-- `data-testid="modal"` is reused for different dialogs (the all-sports menu and the match panel).
-- The login error wording for an unknown user is not pinned yet (the test accepts a few likely wordings).
-  Tighten it after the first unblocked run.
