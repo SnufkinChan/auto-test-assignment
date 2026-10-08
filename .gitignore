@@ -1,0 +1,14 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Login test data: never commit credentials (template: credentials1.example.json)
+credentials1.json
+
+# Local scratch
+.explore/

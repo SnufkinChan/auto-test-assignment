@@ -1,0 +1,22 @@
+{
+  "name": "playwritgth-tests-for-sisu",
+  "version": "1.0.0",
+  "description": "Playwright end-to-end tests for 5 critical epicbet.com use cases",
+  "scripts": {
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "report": "playwright show-report",
+    "ui": "playwright test --ui",
+    "typecheck": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "@types/node": "^26.6.4",
+    "typescript": "^5.9.3"
+  }
+}
