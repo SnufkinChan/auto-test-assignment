@@ -34,12 +34,18 @@ export const test = base.extend<Fixtures>({
   credentials: async ({}, use) => use(loadCredentials()),
 
   failFastWhenBlocked: [
-    async ({ page }, use) => {
+    async ({ page }, use, testInfo) => {
       page.on('response', async (response) => {
         const isPageLoad = response.request().isNavigationRequest() && response.frame() === page.mainFrame();
         // Cloudflare marks its challenge pages with this header.
         if (isPageLoad && response.headers()['cf-mitigated'] === 'challenge') {
           const rayId = response.headers()['cf-ray'] ?? 'unknown';
+
+          // Let the challenge page render first, so the report, video and trace show what blocked the test.
+          // (This handler runs while the previous page is still on screen; wait until the challenge page replaced it.)
+          await page.waitForURL(response.url(), { waitUntil: 'load', timeout: 10_000 }).catch(() => {});
+          await testInfo.attach('cloudflare-challenge', { body: await page.screenshot(), contentType: 'image/png' });
+
           await page.close({
             reason: `Blocked by Cloudflare bot challenge (Ray ID ${rayId}): test traffic is not allow-listed on ${response.url()}`,
           });
