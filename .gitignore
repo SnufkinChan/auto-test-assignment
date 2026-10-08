@@ -12,3 +12,9 @@ credentials1.json
 
 # Local scratch
 .explore/
+
+# Claude Code (local AI assistant settings and notes)
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+.mcp.json
